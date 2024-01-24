@@ -11,7 +11,7 @@ from defectdojo_engagement import DefectDojoEngagement
 
 urllib3.add_stderr_logger()
 
-# Harmless change for example purposes
+# Another example code change
 version = "2023.08.22"
 
 LOGGER_NAME = "defectdojo_api"
