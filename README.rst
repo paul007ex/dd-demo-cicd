@@ -1,9 +1,3 @@
-THIS API WRAPPER IS NO LONGER MAINTAINED. IT MAY OR MAY NOT WORK
-========
-
-See `clients and api wrappers in the docs <https://defectdojo.github.io/django-DefectDojo/integrations/api-v2-docs/#clients--api-wrappers>`_ for alternatives
-
-
 DefectDojo API
 ==============
 
@@ -72,4 +66,4 @@ Have a bug or a feature request? Please first search for existing and closed iss
 Copyright and License
 ---------------------
 
-- `Licensed under MIT <https://github.com/aaronweaver/defectdojo_api/blob/master/LICENSE.txt>`_.
+- Licensed under Apache-2.0
