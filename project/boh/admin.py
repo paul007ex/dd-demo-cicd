@@ -3,7 +3,7 @@ from django.utils.html import format_html
 
 from . import models
 
-# Harmless code change
+# Another code change
 
 
 class EnvironmentCredentials(admin.StackedInline):
