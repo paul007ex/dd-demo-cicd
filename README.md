@@ -14,8 +14,6 @@ For information about **what's new** as well as **known issues**, see [RELEASES.
 
 For information on setting up a development environment, see [INSTALL.md](INSTALL.md).
 
-## Commands
-
 ## License
 
 * [Licensed under the Apache License, Version 2.0](LICENSE.md).
