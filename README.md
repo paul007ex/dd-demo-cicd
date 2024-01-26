@@ -16,13 +16,6 @@ For information on setting up a development environment, see [INSTALL.md](INSTAL
 
 ## Commands
 
-#### ThreadFix
-The following command will retrieve the latest metrics from ThreadFix for connected applications. We recommend this be run daily as a Cron job.
-
-```
-python manage.py cron --threadfix
-```
-
 ## License
 
 * [Licensed under the Apache License, Version 2.0](LICENSE.md).
