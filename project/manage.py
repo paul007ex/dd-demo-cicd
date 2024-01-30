@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# new piece of code
 import os
 import sys
 
