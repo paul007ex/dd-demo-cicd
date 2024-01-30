@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# Adding a comment
 import os
 import sys
 
