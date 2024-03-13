@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-
+#notes
 import os
 import sys
 
