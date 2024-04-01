@@ -3,8 +3,6 @@ from django.utils.html import format_html
 
 from . import models
 
-# This is a change to the source code
-
 class EnvironmentCredentials(admin.StackedInline):
     model = models.EnvironmentCredentials
     extra = 0
