@@ -1,7 +1,5 @@
 from django.db import models
 
-# Add a line
-
 class TimeStampedModel(models.Model):
     """An abstract model allowing models to track its creation and last modified times."""
 
