@@ -6,10 +6,8 @@ pool:
 
 steps:
 # Step 1: Checkout the code from the specified repository
-- task: Checkout@1
-  inputs:
-    repository: 'https://github.com/paul007ex/dd-demo-cicd'
-    fetchDepth: 0
+- checkout: self
+  persistCredentials: true
 
 # Step 2: Install Java (required for Dependency-Check)
 - script: |
