@@ -4,36 +4,34 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
-variables:
-  appUrl: 'http://www.example.com'  # Replace with the URL of your application
-
 steps:
-# Step 1: Checkout the code (if necessary)
+# Step 1: Checkout the code from the specified repository
 - task: Checkout@1
   inputs:
+    repository: 'https://github.com/paul007ex/dd-demo-cicd'
     fetchDepth: 0
 
-# Step 2: Install OWASP ZAP
+# Step 2: Install Java (required for Dependency-Check)
 - script: |
     sudo apt-get update
-    sudo apt-get install zaproxy -y
-  displayName: 'Install OWASP ZAP'
+    sudo apt-get install -y default-jre
+  displayName: 'Install Java Runtime Environment'
 
-# Step 3: Start OWASP ZAP in daemon mode
+# Step 3: Download and install OWASP Dependency-Check
 - script: |
-    zap.sh -daemon -config api.disablekey=true -port 8080
-  displayName: 'Start OWASP ZAP'
+    wget https://github.com/jeremylong/DependencyCheck/releases/download/v6.5.3/dependency-check-6.5.3-release.zip
+    unzip dependency-check-6.5.3-release.zip
+  displayName: 'Install OWASP Dependency-Check'
 
-# Step 4: Run OWASP ZAP scan
+# Step 4: Run OWASP Dependency-Check
 - script: |
-    zap-cli quick-scan --self-contained --start-options '-config api.disablekey=true' $(appUrl)
-    zap-cli report -o zap_report.html -f html
-  displayName: 'Run OWASP ZAP Scan'
+    ./dependency-check/bin/dependency-check.sh --project "DD-Demo-CICD" --scan . --format "ALL" --out dependency-check-report
+  displayName: 'Run OWASP Dependency-Check'
 
-# Step 5: Publish OWASP ZAP Report
+# Step 5: Publish OWASP Dependency-Check Report
 - task: PublishPipelineArtifact@1
   inputs:
-    targetPath: 'zap_report.html'
-    artifact: 'ZAPReport'
+    targetPath: 'dependency-check-report'
+    artifact: 'DependencyCheckReport'
     publishLocation: 'pipeline'
-  displayName: 'Publish OWASP ZAP Report'
+  displayName: 'Publish OWASP Dependency-Check Report'
