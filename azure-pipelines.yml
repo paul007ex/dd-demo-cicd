@@ -1,19 +1,39 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
 trigger:
 - main
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: 'ubuntu-latest'
+
+variables:
+  appUrl: 'http://www.example.com'  # Replace with the URL of your application
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+# Step 1: Checkout the code (if necessary)
+- task: Checkout@1
+  inputs:
+    fetchDepth: 0
 
+# Step 2: Install OWASP ZAP
 - script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+    sudo apt-get update
+    sudo apt-get install zaproxy -y
+  displayName: 'Install OWASP ZAP'
+
+# Step 3: Start OWASP ZAP in daemon mode
+- script: |
+    zap.sh -daemon -config api.disablekey=true -port 8080
+  displayName: 'Start OWASP ZAP'
+
+# Step 4: Run OWASP ZAP scan
+- script: |
+    zap-cli quick-scan --self-contained --start-options '-config api.disablekey=true' $(appUrl)
+    zap-cli report -o zap_report.html -f html
+  displayName: 'Run OWASP ZAP Scan'
+
+# Step 5: Publish OWASP ZAP Report
+- task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: 'zap_report.html'
+    artifact: 'ZAPReport'
+    publishLocation: 'pipeline'
+  displayName: 'Publish OWASP ZAP Report'
