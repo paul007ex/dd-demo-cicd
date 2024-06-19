@@ -26,7 +26,12 @@ steps:
     ./dependency-check/bin/dependency-check.sh --project "DD-Demo-CICD" --scan . --format "ALL" --out dependency-check-report
   displayName: 'Run OWASP Dependency-Check'
 
-# Step 5: Publish OWASP Dependency-Check Report
+# Step 5: Verify the OWASP Dependency-Check report
+- script: |
+    ls -al dependency-check-report
+  displayName: 'Verify Dependency-Check Report'
+
+# Step 6: Publish OWASP Dependency-Check Report
 - task: PublishPipelineArtifact@1
   inputs:
     targetPath: 'dependency-check-report'
