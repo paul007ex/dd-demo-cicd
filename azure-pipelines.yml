@@ -4,6 +4,9 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
+variables:
+  - group: 'KeyVaultSecrets'  # Name of your variable group linked to Azure Key Vault
+
 steps:
 # Step 1: Checkout the code from the specified repository
 - checkout: self
@@ -28,6 +31,7 @@ steps:
 
 # Step 5: Verify the OWASP Dependency-Check report
 - script: |
+    echo "Listing contents of dependency-check-report directory:"
     ls -al dependency-check-report
   displayName: 'Verify Dependency-Check Report'
 
@@ -38,6 +42,3 @@ steps:
     artifact: 'DependencyCheckReport'
     publishLocation: 'pipeline'
   displayName: 'Publish OWASP Dependency-Check Report'
-
-variables:
-  system.debug: true
