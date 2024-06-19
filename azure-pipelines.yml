@@ -9,24 +9,31 @@ steps:
 - checkout: self
   persistCredentials: true
 
-# Step 2: Install Java (required for Dependency-Check)
+# Step 2: Install .NET SDK
+- task: UseDotNet@2
+  inputs:
+    packageType: 'sdk'
+    version: '6.x'  # Specify the required version
+  displayName: 'Install .NET SDK'
+
+# Step 3: Install Java (required for Dependency-Check)
 - script: |
     sudo apt-get update
     sudo apt-get install -y default-jre
   displayName: 'Install Java Runtime Environment'
 
-# Step 3: Download and install OWASP Dependency-Check
+# Step 4: Download and install OWASP Dependency-Check
 - script: |
     wget https://github.com/jeremylong/DependencyCheck/releases/download/v6.5.3/dependency-check-6.5.3-release.zip
     unzip dependency-check-6.5.3-release.zip
   displayName: 'Install OWASP Dependency-Check'
 
-# Step 4: Create the output directory for Dependency-Check reports
+# Step 5: Create the output directory for Dependency-Check reports
 - script: |
     mkdir -p dependency-check-report
   displayName: 'Create Output Directory for Dependency-Check Reports'
 
-# Step 5: Run OWASP Dependency-Check with enhanced logging
+# Step 6: Run OWASP Dependency-Check with enhanced logging
 - script: |
     echo "Running OWASP Dependency-Check..."
     ./dependency-check/bin/dependency-check.sh --project "DD-Demo-CICD" --scan . --format "ALL" --out dependency-check-report
@@ -38,13 +45,13 @@ steps:
     fi
   displayName: 'Run OWASP Dependency-Check'
 
-# Step 6: Verify the OWASP Dependency-Check report
+# Step 7: Verify the OWASP Dependency-Check report
 - script: |
     echo "Listing contents of dependency-check-report directory:"
     ls -al dependency-check-report
   displayName: 'Verify Dependency-Check Report'
 
-# Step 7: Publish OWASP Dependency-Check Report
+# Step 8: Publish OWASP Dependency-Check Report
 - task: PublishPipelineArtifact@1
   inputs:
     targetPath: 'dependency-check-report'
