@@ -4,9 +4,6 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
-variables:
-  - group: 'KeyVaultSecrets'  # Name of your variable group linked to Azure Key Vault
-
 steps:
 # Step 1: Checkout the code from the specified repository
 - checkout: self
