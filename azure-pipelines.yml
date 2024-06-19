@@ -38,3 +38,6 @@ steps:
     artifact: 'DependencyCheckReport'
     publishLocation: 'pipeline'
   displayName: 'Publish OWASP Dependency-Check Report'
+
+variables:
+  system.debug: true
