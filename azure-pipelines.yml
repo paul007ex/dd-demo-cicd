@@ -21,18 +21,30 @@ steps:
     unzip dependency-check-6.5.3-release.zip
   displayName: 'Install OWASP Dependency-Check'
 
-# Step 4: Run OWASP Dependency-Check
+# Step 4: Create the output directory for Dependency-Check reports
 - script: |
+    mkdir -p dependency-check-report
+  displayName: 'Create Output Directory for Dependency-Check Reports'
+
+# Step 5: Run OWASP Dependency-Check with enhanced logging
+- script: |
+    echo "Running OWASP Dependency-Check..."
     ./dependency-check/bin/dependency-check.sh --project "DD-Demo-CICD" --scan . --format "ALL" --out dependency-check-report
+    RESULT=$?
+    if [ $RESULT -ne 0 ]; then
+      echo "Dependency-Check failed with exit code $RESULT"
+      cat dependency-check-report/dependency-check-report.html
+      exit $RESULT
+    fi
   displayName: 'Run OWASP Dependency-Check'
 
-# Step 5: Verify the OWASP Dependency-Check report
+# Step 6: Verify the OWASP Dependency-Check report
 - script: |
     echo "Listing contents of dependency-check-report directory:"
     ls -al dependency-check-report
   displayName: 'Verify Dependency-Check Report'
 
-# Step 6: Publish OWASP Dependency-Check Report
+# Step 7: Publish OWASP Dependency-Check Report
 - task: PublishPipelineArtifact@1
   inputs:
     targetPath: 'dependency-check-report'
